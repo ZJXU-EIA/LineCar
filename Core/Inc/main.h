@@ -46,7 +46,7 @@ extern "C" {
 
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
-
+char* GPIO_PinStateToString(GPIO_PinState state);
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/

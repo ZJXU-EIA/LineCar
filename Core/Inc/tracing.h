@@ -6,9 +6,7 @@
 #define TRACING_H
 
 void GrayScaleTest();
-
-
-
-
+void InitializeStates();
+void tracing();
 
 #endif //TRACING_H

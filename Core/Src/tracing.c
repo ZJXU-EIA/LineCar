@@ -6,6 +6,7 @@
 #include <stm32f1xx_hal.h>
 #include <main.h>
 #include <oled.h>
+#include <motor.h>
 
 
 /**
@@ -28,26 +29,34 @@ void GrayScaleTest() {
  * @author Nymphaea0726
  * @brief 预定义的灰度传感器的状态
  */
-// char Centre = (Gray_3_Value == GPIO_PIN_SET && Gray_4_Value == GPIO_PIN_SET && Gray_5_Value == GPIO_PIN_SET);
-// char Left = (Gray_1_Value == GPIO_PIN_SET || Gray_2_Value == GPIO_PIN_SET);
-// char Right = (Gray_6_Value == GPIO_PIN_SET || Gray_7_Value == GPIO_PIN_SET);
+char Centre;
+char Left;
+char Right;
+
+void InitializeStates() {
+    Centre = (Gray_3_Value == GPIO_PIN_SET && Gray_4_Value == GPIO_PIN_SET && Gray_5_Value == GPIO_PIN_SET);
+    Left = (Gray_1_Value == GPIO_PIN_SET || Gray_2_Value == GPIO_PIN_SET);
+    Right = (Gray_6_Value == GPIO_PIN_SET || Gray_7_Value == GPIO_PIN_SET);
+}
 
 /**
  * @author Nymphaea0726
  * @brief 循迹函数
+ * @attention 该函数部分目前仍为伪代码，请勿直接使用。
  */
-// void tracing() {
-//     if (Centre) {
-//         // Move forward
-//         // Motor(50,50);
-//         // Servo(50);
-//     } else if(Left) {
-//         // Turn left
-//         // Motor(50,0);
-//         // Servo(0);
-//     } else if(Right) {
-//         // Turn right
-//         // Motor(0,50);
-//         // Servo(100);
-//     }
-// }
+void tracing() {
+    if (Centre) {
+        Motor_Run(Motor_L, 1, 50);
+        Motor_Run(Motor_R, 1, 50);
+    } else if(Left) {
+        // Turn left
+        Motor_Run(Motor_L, 1, 30);
+        Motor_Run(Motor_R, 1, 70);
+        // Servo(0);
+    } else if(Right) {
+        // Turn right
+        Motor_Run(Motor_L, 1, 70);
+        Motor_Run(Motor_R, 1, 30);
+        // Servo(100);
+    }
+}

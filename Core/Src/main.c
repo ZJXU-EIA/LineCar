@@ -59,7 +59,7 @@ void SystemClock_Config(void);
      * @param state GPIO_PinState
      * @return State of the pin as string
      */
-const char* GPIO_PinStateToString(GPIO_PinState state) {
+char* GPIO_PinStateToString(GPIO_PinState state) {
   return state == GPIO_PIN_SET ? "1" : "0";
 }
 
