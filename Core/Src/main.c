@@ -25,7 +25,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <oled.h>
-#include <stdio.h>
+#include <tracing.h>
+#include <motor.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -52,34 +53,20 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
+
 /**
- * @author Nymphaea0726
- * @param state GPIO_PinState
- * @return State of the pin as string
- */
+     * @author Nymphaea0726
+     * @param state GPIO_PinState
+     * @return State of the pin as string
+     */
 const char* GPIO_PinStateToString(GPIO_PinState state) {
   return state == GPIO_PIN_SET ? "1" : "0";
 }
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
- /**
- * @author Nymphaea0726
- * @brief GreyScaleSensorTest
- */
-void GreyScaleTest() {
-  OLED_NewFrame();
-  OLED_PrintString(0, 0, GPIO_PinStateToString(Grey_1), &font16x16, OLED_COLOR_NORMAL);
-  OLED_PrintString(16, 0, GPIO_PinStateToString(Grey_2), &font16x16, OLED_COLOR_NORMAL);
-  OLED_PrintString(32, 0, GPIO_PinStateToString(Grey_3), &font16x16, OLED_COLOR_NORMAL);
-  OLED_PrintString(48, 0, GPIO_PinStateToString(Grey_4), &font16x16, OLED_COLOR_NORMAL);
-  OLED_PrintString(64, 0, GPIO_PinStateToString(Grey_5), &font16x16, OLED_COLOR_NORMAL);
-  OLED_PrintString(80, 0, GPIO_PinStateToString(Grey_6), &font16x16, OLED_COLOR_NORMAL);
-  OLED_PrintString(96, 0, GPIO_PinStateToString(Grey_7), &font16x16, OLED_COLOR_NORMAL);
-  OLED_ShowFrame();
-}
 
 /* USER CODE END 0 */
 
@@ -113,17 +100,21 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_I2C2_Init();
-  MX_TIM1_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   HAL_Delay(20);
   OLED_Init();
+  Motor_PWM_Init();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    GreyScaleTest();
+    PWM_Test();
+    Motor_Run(Motor_L, 1, 50);
+    Motor_Run(Motor_R, 1, 50);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -143,10 +134,13 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();
@@ -156,12 +150,12 @@ void SystemClock_Config(void)
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
   {
     Error_Handler();
   }
@@ -182,6 +176,7 @@ void Error_Handler(void)
   __disable_irq();
   while (1)
   {
+
   }
   /* USER CODE END Error_Handler_Debug */
 }

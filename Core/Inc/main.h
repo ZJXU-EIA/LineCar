@@ -57,33 +57,41 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define Grey_1_Pin GPIO_PIN_1
-#define Grey_1_GPIO_Port GPIOA
-#define Grey_2_Pin GPIO_PIN_2
-#define Grey_2_GPIO_Port GPIOA
-#define Grey_3_Pin GPIO_PIN_3
-#define Grey_3_GPIO_Port GPIOA
-#define Grey_4_Pin GPIO_PIN_4
-#define Grey_4_GPIO_Port GPIOA
-#define Grey_5_Pin GPIO_PIN_5
-#define Grey_5_GPIO_Port GPIOA
-#define Grey_6_Pin GPIO_PIN_6
-#define Grey_6_GPIO_Port GPIOA
-#define Grey_7_Pin GPIO_PIN_7
-#define Grey_7_GPIO_Port GPIOA
-#define US_Echo_Pin GPIO_PIN_10
-#define US_Echo_GPIO_Port GPIOA
-#define US_Trig_Pin GPIO_PIN_11
-#define US_Trig_GPIO_Port GPIOA
+#define Motor_L_Pin GPIO_PIN_2
+#define Motor_L_GPIO_Port GPIOA
+#define Motor_R_Pin GPIO_PIN_3
+#define Motor_R_GPIO_Port GPIOA
+#define L298N_IN1_Pin GPIO_PIN_4
+#define L298N_IN1_GPIO_Port GPIOA
+#define L298N_IN2_Pin GPIO_PIN_5
+#define L298N_IN2_GPIO_Port GPIOA
+#define L298N_IN3_Pin GPIO_PIN_6
+#define L298N_IN3_GPIO_Port GPIOA
+#define L298N_IN4_Pin GPIO_PIN_7
+#define L298N_IN4_GPIO_Port GPIOA
+#define Gray_7_Pin GPIO_PIN_12
+#define Gray_7_GPIO_Port GPIOB
+#define Gray_6_Pin GPIO_PIN_13
+#define Gray_6_GPIO_Port GPIOB
+#define Gray_5_Pin GPIO_PIN_14
+#define Gray_5_GPIO_Port GPIOB
+#define Gray_4_Pin GPIO_PIN_15
+#define Gray_4_GPIO_Port GPIOB
+#define Gray_3_Pin GPIO_PIN_9
+#define Gray_3_GPIO_Port GPIOA
+#define Gray_2_Pin GPIO_PIN_10
+#define Gray_2_GPIO_Port GPIOA
+#define Gray_1_Pin GPIO_PIN_12
+#define Gray_1_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
-#define Grey_1 HAL_GPIO_ReadPin(Grey_1_GPIO_Port,Grey_1_Pin)
-#define Grey_2 HAL_GPIO_ReadPin(Grey_2_GPIO_Port,Grey_2_Pin)
-#define Grey_3 HAL_GPIO_ReadPin(Grey_3_GPIO_Port,Grey_3_Pin)
-#define Grey_4 HAL_GPIO_ReadPin(Grey_4_GPIO_Port,Grey_4_Pin)
-#define Grey_5 HAL_GPIO_ReadPin(Grey_5_GPIO_Port,Grey_5_Pin)
-#define Grey_6 HAL_GPIO_ReadPin(Grey_6_GPIO_Port,Grey_6_Pin)
-#define Grey_7 HAL_GPIO_ReadPin(Grey_7_GPIO_Port,Grey_7_Pin)
+#define Gray_1_Value HAL_GPIO_ReadPin(Gray_1_GPIO_Port,Gray_1_Pin)
+#define Gray_2_Value HAL_GPIO_ReadPin(Gray_2_GPIO_Port,Gray_2_Pin)
+#define Gray_3_Value HAL_GPIO_ReadPin(Gray_3_GPIO_Port,Gray_3_Pin)
+#define Gray_4_Value HAL_GPIO_ReadPin(Gray_4_GPIO_Port,Gray_4_Pin)
+#define Gray_5_Value HAL_GPIO_ReadPin(Gray_5_GPIO_Port,Gray_5_Pin)
+#define Gray_6_Value HAL_GPIO_ReadPin(Gray_6_GPIO_Port,Gray_6_Pin)
+#define Gray_7_Value HAL_GPIO_ReadPin(Gray_7_GPIO_Port,Gray_7_Pin)
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

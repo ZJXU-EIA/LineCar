@@ -37,6 +37,10 @@ message("Build type: " ${CMAKE_BUILD_TYPE})
 # Create an executable object type
 add_executable(
         ${CMAKE_PROJECT_NAME}
+        Core/Src/tracing.c
+        Core/Inc/tracing.h
+        Core/Src/motor.c
+        Core/Inc/motor.h
 
 )
 
