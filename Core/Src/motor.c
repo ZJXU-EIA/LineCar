@@ -36,9 +36,9 @@ void PWM_Test() {
  * @param direction 方向 1:正转 0:反转
  * @param speed 速度 0-100 （占空比:0% - 100%）
  */
-void Motor_Run(Motor motor, uint8_t direction, uint8_t speed) {
+void Motor_Run(Motor motor, Direction direction, uint8_t speed) {
     if (motor == Motor_L) { // Left motor
-        if (direction == 1) { // Forward
+        if (direction == Forward) { // Forward
             HAL_GPIO_WritePin(L298N_IN1_GPIO_Port, L298N_IN1_Pin, GPIO_PIN_SET);
             HAL_GPIO_WritePin(L298N_IN2_GPIO_Port, L298N_IN2_Pin, GPIO_PIN_RESET);
         } else { // Reverse
@@ -47,7 +47,7 @@ void Motor_Run(Motor motor, uint8_t direction, uint8_t speed) {
         }
         __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, speed*10);
     } else if (motor == Motor_R) { // Right motor
-        if (direction == 1) { // Forward
+        if (direction == Backward) { // Forward
             HAL_GPIO_WritePin(L298N_IN3_GPIO_Port, L298N_IN3_Pin, GPIO_PIN_SET);
             HAL_GPIO_WritePin(L298N_IN4_GPIO_Port, L298N_IN4_Pin, GPIO_PIN_RESET);
         } else { // Reverse

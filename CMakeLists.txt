@@ -41,6 +41,7 @@ add_executable(
         Core/Inc/tracing.h
         Core/Src/motor.c
         Core/Inc/motor.h
+        Core/Src/servo.c
 
 )
 

@@ -69,6 +69,8 @@ void Error_Handler(void);
 #define L298N_IN3_GPIO_Port GPIOA
 #define L298N_IN4_Pin GPIO_PIN_7
 #define L298N_IN4_GPIO_Port GPIOA
+#define Servo_Pin GPIO_PIN_1
+#define Servo_GPIO_Port GPIOB
 #define Gray_7_Pin GPIO_PIN_12
 #define Gray_7_GPIO_Port GPIOB
 #define Gray_6_Pin GPIO_PIN_13

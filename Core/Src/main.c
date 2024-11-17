@@ -27,6 +27,7 @@
 #include <oled.h>
 #include <tracing.h>
 #include <motor.h>
+#include <servo.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -101,20 +102,21 @@ int main(void)
   MX_GPIO_Init();
   MX_I2C2_Init();
   MX_TIM2_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
   HAL_Delay(20);
   OLED_Init();
   Motor_PWM_Init();
-
+  Servo_PWM_Init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    PWM_Test();
-    Motor_Run(Motor_L, 1, 50);
-    Motor_Run(Motor_R, 1, 50);
+    Servo_Test();
+    Motor_Run(Motor_L,1,50);
+    Motor_Run(Motor_R,1,50);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
