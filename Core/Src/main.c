@@ -114,9 +114,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    Servo_Test();
-    Motor_Run(Motor_L,1,50);
-    Motor_Run(Motor_R,1,50);
+    tracing();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

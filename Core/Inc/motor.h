@@ -17,6 +17,6 @@ typedef enum {
 
 void Motor_PWM_Init();
 void PWM_Test();
-void Motor_Run(Motor motor, uint8_t direction, uint8_t speed);
+void Motor_Run(Motor motor, Direction direction, uint8_t speed);
 
 #endif //MOTOR_H

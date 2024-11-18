@@ -47,7 +47,7 @@ void Motor_Run(Motor motor, Direction direction, uint8_t speed) {
         }
         __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, speed*10);
     } else if (motor == Motor_R) { // Right motor
-        if (direction == Backward) { // Forward
+        if (direction == Forward) { // Forward
             HAL_GPIO_WritePin(L298N_IN3_GPIO_Port, L298N_IN3_Pin, GPIO_PIN_SET);
             HAL_GPIO_WritePin(L298N_IN4_GPIO_Port, L298N_IN4_Pin, GPIO_PIN_RESET);
         } else { // Reverse

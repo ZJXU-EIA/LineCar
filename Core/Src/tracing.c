@@ -7,6 +7,7 @@
 #include <main.h>
 #include <oled.h>
 #include <motor.h>
+#include <servo.h>
 
 
 /**
@@ -45,18 +46,20 @@ void InitializeStates() {
  * @attention 该函数部分目前仍为伪代码，请勿直接使用。
  */
 void tracing() {
+    InitializeStates();
     if (Centre) {
         Motor_Run(Motor_L, 1, 50);
         Motor_Run(Motor_R, 1, 50);
+        Servo(90);
     } else if(Left) {
         // Turn left
         Motor_Run(Motor_L, 1, 30);
         Motor_Run(Motor_R, 1, 70);
-        // Servo(0);
+        Servo(65);
     } else if(Right) {
         // Turn right
         Motor_Run(Motor_L, 1, 70);
         Motor_Run(Motor_R, 1, 30);
-        // Servo(100);
+        Servo(115);
     }
 }
