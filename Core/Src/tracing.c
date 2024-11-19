@@ -33,11 +33,15 @@ void GrayScaleTest() {
 char Centre;
 char Left;
 char Right;
+char LeftLight;
+char RightLight;
 
 void InitializeStates() {
-    Centre = (Gray_3_Value == GPIO_PIN_SET && Gray_4_Value == GPIO_PIN_SET && Gray_5_Value == GPIO_PIN_SET);
-    Left = (Gray_1_Value == GPIO_PIN_SET || Gray_2_Value == GPIO_PIN_SET);
-    Right = (Gray_6_Value == GPIO_PIN_SET || Gray_7_Value == GPIO_PIN_SET);
+    Centre = (Gray_3_Value == GPIO_PIN_SET || Gray_4_Value == GPIO_PIN_SET || Gray_5_Value == GPIO_PIN_SET);
+    LeftLight = Gray_2_Value == GPIO_PIN_SET;
+    RightLight = Gray_6_Value == GPIO_PIN_SET;
+    Left = Gray_1_Value == GPIO_PIN_SET;
+    Right = Gray_7_Value == GPIO_PIN_SET;
 }
 
 /**
@@ -48,18 +52,34 @@ void InitializeStates() {
 void tracing() {
     InitializeStates();
     if (Centre) {
-        Motor_Run(Motor_L, 1, 50);
-        Motor_Run(Motor_R, 1, 50);
+        // Move forward
+        Motor_Run(Motor_L, 1, 40);
+        Motor_Run(Motor_R, 1, 40);
         Servo(90);
-    } else if(Left) {
+    } else if (Left) {
         // Turn left
-        Motor_Run(Motor_L, 1, 30);
-        Motor_Run(Motor_R, 1, 70);
-        Servo(65);
-    } else if(Right) {
+        Motor_Run(Motor_L, 1, 35);
+        Motor_Run(Motor_R, 1, 65);
+        Servo(60);
+    } else if (Right) {
         // Turn right
-        Motor_Run(Motor_L, 1, 70);
-        Motor_Run(Motor_R, 1, 30);
-        Servo(115);
+        Motor_Run(Motor_L, 1, 65);
+        Motor_Run(Motor_R, 1, 35);
+        Servo(120);
+    } else if (LeftLight) {
+        // Slight left adjustment
+        Motor_Run(Motor_L, 1, 38);
+        Motor_Run(Motor_R, 1, 42);
+        Servo(80);
+    } else if (RightLight) {
+        // Slight right adjustment
+        Motor_Run(Motor_L, 1, 42);
+        Motor_Run(Motor_R, 1, 38);
+        Servo(100);
+    } else {
+        // Stop if no line is detected
+        Motor_Run(Motor_L, 0, 0);
+        Motor_Run(Motor_R, 0, 0);
+        Servo(90);
     }
 }
