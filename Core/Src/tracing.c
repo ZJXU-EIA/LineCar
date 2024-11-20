@@ -33,8 +33,8 @@ void GrayScaleTest() {
 char Centre;
 char Left;
 char Right;
-char LeftLight;
-char RightLight;
+char LeftSlight;
+char RightSlight;
 
 /**
  * @brief 初始化灰度传感器的状态
@@ -47,8 +47,8 @@ void InitializeStates() {
         (Gray_3_Value == GPIO_PIN_SET)||
         (Gray_4_Value == GPIO_PIN_SET)||
         (Gray_5_Value == GPIO_PIN_SET);
-    LeftLight = Gray_2_Value == GPIO_PIN_SET;
-    RightLight = Gray_6_Value == GPIO_PIN_SET;
+    LeftSlight = Gray_2_Value == GPIO_PIN_SET;
+    RightSlight = Gray_6_Value == GPIO_PIN_SET;
     Left = Gray_1_Value == GPIO_PIN_SET;
     Right = Gray_7_Value == GPIO_PIN_SET;
 }
@@ -59,34 +59,39 @@ void InitializeStates() {
  */
 void tracing() {
     InitializeStates();
+    int left_speed = 30;
+    int right_speed = 30;
+    int servo_angle = 90;
+
     if (Centre) {
         // Move forward
-        Motor_Run(Motor_L, 1, 30);
-        Motor_Run(Motor_R, 1, 30);
-        Servo(90);
+        left_speed = 30;
+        right_speed = 30;
+        servo_angle = 90;
     } else if (Left) {
         // Turn left
-        Motor_Run(Motor_L, 1, 25);
-        Motor_Run(Motor_R, 1, 65);
-        Servo(55);
+        left_speed = 25;
+        right_speed = 65;
+        servo_angle = 55;
     } else if (Right) {
         // Turn right
-        Motor_Run(Motor_L, 1, 65);
-        Motor_Run(Motor_R, 1, 25);
-        Servo(125);
-    } else if (LeftLight) {
+        left_speed = 65;
+        right_speed = 25;
+        servo_angle = 125;
+    } else if (LeftSlight) {
         // Slight left adjustment
-        Motor_Run(Motor_L, 1, 25);
-        Motor_Run(Motor_R, 1, 65);
-        Servo(75);
-    } else if (RightLight) {
+        left_speed = 25;
+        right_speed = 65;
+        servo_angle = 75;
+    } else if (RightSlight) {
         // Slight right adjustment
-        Motor_Run(Motor_L, 1, 65);
-        Motor_Run(Motor_R, 1, 25);
-        Servo(105);
-    } else {
-        Motor_Run(Motor_L, 1, 30);
-        Motor_Run(Motor_R, 1, 30);
-        Servo(90);
+        left_speed = 65;
+        right_speed = 25;
+        servo_angle = 105;
     }
+
+    Motor_Run(Motor_L, 1, left_speed);
+    Motor_Run(Motor_R, 1, right_speed);
+    Servo(servo_angle);
+    HAL_Delay(100);
 }
