@@ -33,27 +33,44 @@ void PWM_Test() {
  * @Author Nymphaea0726
  * @Description 控制电机运行
  * @param motor 电机编号 Motor_L:左电机 Motor_R:右电机
- * @param direction 方向 1:正转 0:反转
+ * @param direction 方向 0:正转 1:反转
+ * @param speed 速度 0-100 （占空比:0% - 100%）
+ */
+/*
+ * @Author Nymphaea0726
+ * @Description 控制电机运行
+ * @param motor 电机编号 Motor_L:左电机 Motor_R:右电机
+ * @param direction 方向 0:正转 1:反转
  * @param speed 速度 0-100 （占空比:0% - 100%）
  */
 void Motor_Run(Motor motor, Direction direction, uint8_t speed) {
-    if (motor == Motor_L) { // Left motor
-        if (direction == Forward) { // Forward
-            HAL_GPIO_WritePin(L298N_IN1_GPIO_Port, L298N_IN1_Pin, GPIO_PIN_SET);
-            HAL_GPIO_WritePin(L298N_IN2_GPIO_Port, L298N_IN2_Pin, GPIO_PIN_RESET);
-        } else { // Reverse
-            HAL_GPIO_WritePin(L298N_IN1_GPIO_Port, L298N_IN1_Pin, GPIO_PIN_RESET);
-            HAL_GPIO_WritePin(L298N_IN2_GPIO_Port, L298N_IN2_Pin, GPIO_PIN_SET);
-        }
-        __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, speed*10);
-    } else if (motor == Motor_R) { // Right motor
-        if (direction == Forward) { // Forward
-            HAL_GPIO_WritePin(L298N_IN3_GPIO_Port, L298N_IN3_Pin, GPIO_PIN_SET);
-            HAL_GPIO_WritePin(L298N_IN4_GPIO_Port, L298N_IN4_Pin, GPIO_PIN_RESET);
-        } else { // Reverse
-            HAL_GPIO_WritePin(L298N_IN3_GPIO_Port, L298N_IN3_Pin, GPIO_PIN_RESET);
-            HAL_GPIO_WritePin(L298N_IN4_GPIO_Port, L298N_IN4_Pin, GPIO_PIN_SET);
-        }
-        __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, speed*10);
+    GPIO_TypeDef* IN1_Port;
+    uint16_t IN1_Pin;
+    GPIO_TypeDef* IN2_Port;
+    uint16_t IN2_Pin;
+    uint32_t TIM_Channel;
+
+    if (motor == Motor_L) {
+        IN1_Port = L298N_IN1_GPIO_Port;
+        IN1_Pin = L298N_IN1_Pin;
+        IN2_Port = L298N_IN2_GPIO_Port;
+        IN2_Pin = L298N_IN2_Pin;
+        TIM_Channel = TIM_CHANNEL_3;
+    } else {
+        IN1_Port = L298N_IN3_GPIO_Port;
+        IN1_Pin = L298N_IN3_Pin;
+        IN2_Port = L298N_IN4_GPIO_Port;
+        IN2_Pin = L298N_IN4_Pin;
+        TIM_Channel = TIM_CHANNEL_4;
     }
+
+    if (direction == Forward) {
+        HAL_GPIO_WritePin(IN1_Port, IN1_Pin, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(IN2_Port, IN2_Pin, GPIO_PIN_RESET);
+    } else {
+        HAL_GPIO_WritePin(IN1_Port, IN1_Pin, GPIO_PIN_RESET);
+        HAL_GPIO_WritePin(IN2_Port, IN2_Pin, GPIO_PIN_SET);
+    }
+
+    __HAL_TIM_SET_COMPARE(&htim2, TIM_Channel, speed * 10);
 }

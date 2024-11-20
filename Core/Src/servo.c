@@ -31,10 +31,7 @@ void Servo(int angle) {
     // 2. Set the pulse width
     __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_4, pulse_width);
     // 3. Wait for the servo to move
-
-    // 4. Set the pulse width to 0
-    // 5. Wait for the servo to stop moving
-    // 6. Return
+    HAL_Delay(20);
 }
 
 /**

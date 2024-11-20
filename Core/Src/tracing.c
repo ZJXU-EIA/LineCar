@@ -90,8 +90,8 @@ void tracing() {
         servo_angle = 105;
     }
 
-    Motor_Run(Motor_L, 1, left_speed);
-    Motor_Run(Motor_R, 1, right_speed);
+    Motor_Run(Motor_L, Forward, left_speed);
+    Motor_Run(Motor_R, Forward, right_speed);
     Servo(servo_angle);
     HAL_Delay(100);
 }
