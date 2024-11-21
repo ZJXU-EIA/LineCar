@@ -61,42 +61,35 @@ void tracing() {
     InitializeStates();
     int left_speed = 30;
     int right_speed = 30;
-    static int servo_angle; // 静态变量保存上一次的舵机角度
-    int delay_time = 0;
+    static int servo_angle; // 静态保存舵机角度
+    static int prev_servo_angle = 90; // 静态保存上一个舵机角度
 
     if (Centre) {
         // Move forward
         left_speed = 30;
         right_speed = 30;
-        servo_angle = 90;
-        delay_time = 0;
-    } else if (Left) {
-        // Turn left
+        if (prev_servo_angle < 90) {
+            servo_angle = 90 + 5; // 舵机向右旋转小角度
+        } else if (prev_servo_angle > 90) {
+            servo_angle = 90 - 5; // 舵机向左旋转小角度
+        } else {
+            servo_angle = 90; // 保持直行
+        }
+    } else if (Left || LeftSlight) {
+        // 左转或向左微调
         left_speed = 25;
         right_speed = 65;
-        servo_angle = 55;
-        delay_time = 300;
-    } else if (Right) {
-        // Turn right
+        servo_angle = Left ? 55 : 75; // 设置舵机左转角度或左转小角度
+    } else if (Right || RightSlight) {
+        // 右转或向右微调
         left_speed = 65;
         right_speed = 25;
-        servo_angle = 125;
-        delay_time = 300;
-    } else if (LeftSlight) {
-        // Slight left adjustment
-        left_speed = 25;
-        right_speed = 65;
-        servo_angle = 75;
-        delay_time = 0;
-    } else if (RightSlight) {
-        // Slight right adjustment
-        left_speed = 65;
-        right_speed = 25;
-        servo_angle = 105;
-        delay_time = 0;
+        servo_angle = Right ? 125 : 105; // 设置舵机右转角度或右转小角度
     }
 
-    Motor_Run(Motor_L, 1, left_speed);
-    Motor_Run(Motor_R, 1, right_speed);
+    prev_servo_angle = servo_angle; // 更新上一个舵机角度
+
+    Motor_Run(Motor_L, Forward, left_speed);
+    Motor_Run(Motor_R, Forward, right_speed);
     Servo(servo_angle);
 }

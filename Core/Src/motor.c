@@ -65,11 +65,11 @@ void Motor_Run(Motor motor, Direction direction, uint8_t speed) {
     }
 
     if (direction == Forward) {
-        HAL_GPIO_WritePin(IN1_Port, IN1_Pin, GPIO_PIN_SET);
-        HAL_GPIO_WritePin(IN2_Port, IN2_Pin, GPIO_PIN_RESET);
-    } else {
         HAL_GPIO_WritePin(IN1_Port, IN1_Pin, GPIO_PIN_RESET);
         HAL_GPIO_WritePin(IN2_Port, IN2_Pin, GPIO_PIN_SET);
+    } else {
+        HAL_GPIO_WritePin(IN1_Port, IN1_Pin, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(IN2_Port, IN2_Pin, GPIO_PIN_RESET);
     }
 
     __HAL_TIM_SET_COMPARE(&htim2, TIM_Channel, speed * 10);
