@@ -61,37 +61,42 @@ void tracing() {
     InitializeStates();
     int left_speed = 30;
     int right_speed = 30;
-    int servo_angle = 90;
+    static int servo_angle; // 静态变量保存上一次的舵机角度
+    int delay_time = 0;
 
     if (Centre) {
         // Move forward
         left_speed = 30;
         right_speed = 30;
         servo_angle = 90;
+        delay_time = 0;
     } else if (Left) {
         // Turn left
         left_speed = 25;
         right_speed = 65;
         servo_angle = 55;
+        delay_time = 300;
     } else if (Right) {
         // Turn right
         left_speed = 65;
         right_speed = 25;
         servo_angle = 125;
+        delay_time = 300;
     } else if (LeftSlight) {
         // Slight left adjustment
         left_speed = 25;
         right_speed = 65;
         servo_angle = 75;
+        delay_time = 0;
     } else if (RightSlight) {
         // Slight right adjustment
         left_speed = 65;
         right_speed = 25;
         servo_angle = 105;
+        delay_time = 0;
     }
 
-    Motor_Run(Motor_L, Forward, left_speed);
-    Motor_Run(Motor_R, Forward, right_speed);
+    Motor_Run(Motor_L, 1, left_speed);
+    Motor_Run(Motor_R, 1, right_speed);
     Servo(servo_angle);
-    HAL_Delay(100);
 }
