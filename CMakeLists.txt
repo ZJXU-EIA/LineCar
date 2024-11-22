@@ -43,6 +43,8 @@ add_executable(
         Core/Inc/motor.h
         Core/Src/servo.c
         Core/Inc/servo.h
+        Core/Src/pid.c
+        Core/Inc/pid.h
 
 )
 

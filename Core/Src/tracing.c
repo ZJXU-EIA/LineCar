@@ -8,6 +8,7 @@
 #include <oled.h>
 #include <motor.h>
 #include <servo.h>
+#include <pid.h>
 
 
 /**
@@ -42,29 +43,37 @@ char Cross;
  */
 
 void InitializeStates() {
-    Centre = (Gray_3_Value == GPIO_PIN_SET&&Gray_4_Value == GPIO_PIN_SET&&Gray_5_Value == GPIO_PIN_SET)||
-        (Gray_3_Value == GPIO_PIN_SET&&Gray_4_Value == GPIO_PIN_SET)||
-        (Gray_4_Value == GPIO_PIN_SET&&Gray_5_Value == GPIO_PIN_SET);
+    Centre = (Gray_3_Value == GPIO_PIN_SET && Gray_4_Value == GPIO_PIN_SET && Gray_5_Value == GPIO_PIN_SET) ||
+             (Gray_3_Value == GPIO_PIN_SET && Gray_4_Value == GPIO_PIN_SET) ||
+             (Gray_4_Value == GPIO_PIN_SET && Gray_5_Value == GPIO_PIN_SET);
     LeftSlight = Gray_2_Value == GPIO_PIN_SET;
     RightSlight = Gray_6_Value == GPIO_PIN_SET;
     Left = Gray_1_Value == GPIO_PIN_SET;
     Right = Gray_7_Value == GPIO_PIN_SET;
     Cross = Gray_1_Value == GPIO_PIN_SET && Gray_2_Value == GPIO_PIN_SET && Gray_3_Value == GPIO_PIN_SET &&
-        Gray_4_Value == GPIO_PIN_SET && Gray_5_Value == GPIO_PIN_SET && Gray_6_Value == GPIO_PIN_SET &&
-        Gray_7_Value == GPIO_PIN_SET;
+            Gray_4_Value == GPIO_PIN_SET && Gray_5_Value == GPIO_PIN_SET && Gray_6_Value == GPIO_PIN_SET &&
+            Gray_7_Value == GPIO_PIN_SET;
 }
 
 /**
  * @author Nymphaea0726
  * @brief 循迹函数
+ * @attention PID部分仅供逻辑参考,不确定能否使用
  */
 void tracing() {
     InitializeStates();
     int left_speed = 30;
     int right_speed = 30;
     static int servo_angle; // 静态保存舵机角度
-    static int prev_servo_angle = 90; // 静态保存上一个舵机角度
-    static int crossCount = 0;
+    static int prev_servo_angle; // 静态保存上一个舵机角度
+    static int crossCount = 0; // 静态保存十字计数
+    static PIDController pid; // 静态保存PID控制器
+    static int pid_Init = 0; // 静态保存PID初始化状态
+
+    if (!pid_Init) {
+        PIDController_Init(&pid, 1.0f, 0.1f, 0.1f, 90.0f);
+        pid_Init = 1;
+    }
 
     if (Cross) {
         crossCount++;
@@ -78,24 +87,27 @@ void tracing() {
             // Move forward
             left_speed = 30;
             right_speed = 30;
-            if (prev_servo_angle == 55) {
-                servo_angle = 90 + 1; // Small angle to the right
-            } else if (prev_servo_angle == 125) {
-                servo_angle = 90 - 1; // Small angle to the left
-            } else {
-                servo_angle = 90; // Center
-            }
         } else if (Left || LeftSlight) {
             // Turn left or slight left adjustment
             left_speed = Left ? 20 : 25;
             right_speed = Left ? 40 : 35;
-            servo_angle = Left ? 55 : 75; // Set servo angle for left turn or slight left adjustment
         } else if (Right || RightSlight) {
             // Turn right or slight right adjustment
             left_speed = Right ? 40 : 35;
             right_speed = Right ? 20 : 25;
-            servo_angle = Right ? 125 : 105; // Set servo angle for right turn or slight right adjustment
         }
+    }
+
+    // 调用PID控制器对舵机角度进行计算
+    float measure_servo = (float) (servo_angle);
+    float output = Servo_Angle_PID_Calc(&pid, measure_servo);
+    servo_angle = (int) (measure_servo + output);
+
+    // 限制舵机角度在55-125之间
+    if (servo_angle >= 125) {
+        servo_angle = 125;
+    } else if (servo_angle <= 55) {
+        servo_angle = 55;
     }
 
     prev_servo_angle = servo_angle; // 更新上一个舵机角度
