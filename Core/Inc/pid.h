@@ -5,6 +5,11 @@
 #ifndef PID_H
 #define PID_H
 
+
+/**
+ * @brief PID控制器结构体
+ * @author Nymphaea0726
+ */
 typedef struct {
     float Kp;
     float Ki;
