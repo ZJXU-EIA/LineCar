@@ -43,10 +43,7 @@ char RightSlight;
 void InitializeStates() {
     Centre = (Gray_3_Value == GPIO_PIN_SET&&Gray_4_Value == GPIO_PIN_SET&&Gray_5_Value == GPIO_PIN_SET)||
         (Gray_3_Value == GPIO_PIN_SET&&Gray_4_Value == GPIO_PIN_SET)||
-        (Gray_4_Value == GPIO_PIN_SET&&Gray_5_Value == GPIO_PIN_SET)||
-        (Gray_3_Value == GPIO_PIN_SET)||
-        (Gray_4_Value == GPIO_PIN_SET)||
-        (Gray_5_Value == GPIO_PIN_SET);
+        (Gray_4_Value == GPIO_PIN_SET&&Gray_5_Value == GPIO_PIN_SET);
     LeftSlight = Gray_2_Value == GPIO_PIN_SET;
     RightSlight = Gray_6_Value == GPIO_PIN_SET;
     Left = Gray_1_Value == GPIO_PIN_SET;
@@ -68,22 +65,22 @@ void tracing() {
         // Move forward
         left_speed = 30;
         right_speed = 30;
-        if (prev_servo_angle < 90) {
-            servo_angle = 90 + 5; // 舵机向右旋转小角度
-        } else if (prev_servo_angle > 90) {
-            servo_angle = 90 - 5; // 舵机向左旋转小角度
+        if (prev_servo_angle == 55) {
+            servo_angle = 90 + 1; // 舵机向右旋转小角度
+        } else if (prev_servo_angle == 125) {
+            servo_angle = 90 - 1; // 舵机向左旋转小角度
         } else {
             servo_angle = 90; // 保持直行
         }
     } else if (Left || LeftSlight) {
         // 左转或向左微调
-        left_speed = 25;
-        right_speed = 65;
+        left_speed = Left ? 20 : 25;
+        right_speed = Left ? 40 : 35;
         servo_angle = Left ? 55 : 75; // 设置舵机左转角度或左转小角度
     } else if (Right || RightSlight) {
         // 右转或向右微调
-        left_speed = 65;
-        right_speed = 25;
+        left_speed = Right ? 40 : 35;
+        right_speed = Right ? 20 : 25;
         servo_angle = Right ? 125 : 105; // 设置舵机右转角度或右转小角度
     }
 
