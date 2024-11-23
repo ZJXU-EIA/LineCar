@@ -69,6 +69,7 @@ void tracing() {
     static int cross_Count = 0; // 静态保存十字计数
     static PIDController pid; // 创建PID控制器
     static int pid_Init = 0; // 保存PID初始化状态
+    static int last_Cross_State = 0; // 保存上一个十字状态
 
 
     if (!pid_Init) {
@@ -76,10 +77,15 @@ void tracing() {
         pid_Init = 1;
     }
 
-    if (Cross) {
+    // 跨越检测
+    if (Cross && last_Cross_State == 0) {
         cross_Count++;
+        last_Cross_State = 1;
+    } else if (!Cross) {
+        last_Cross_State = 0;
     }
 
+    // 如果连续跨越7个,则停止
     if (cross_Count >= 14) {
         left_speed = 0;
         right_speed = 0;
