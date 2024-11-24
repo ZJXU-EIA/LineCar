@@ -64,13 +64,18 @@ void tracing() {
     int right_speed = 30;
     static int servo_angle; // 静态保存舵机角度
     static int prev_servo_angle = 90; // 静态保存上一个舵机角度
-    static int crossCount = 0;
+    static int cross_Count = 0;
+    static int last_Cross_State = 0;
 
-    if (Cross) {
-        crossCount++;
+    // 跨越检测
+    if (Cross && last_Cross_State == 0) {
+        cross_Count++;
+        last_Cross_State = 1;
+    } else if (!Cross) {
+        last_Cross_State = 0;
     }
 
-    if (crossCount >= 14) {
+    if (cross_Count >= 14) {
         left_speed = 0;
         right_speed = 0;
     } else {
