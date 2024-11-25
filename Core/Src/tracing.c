@@ -75,14 +75,14 @@ void tracing() {
         last_Cross_State = 0;
     }
 
-    if (cross_Count >= 14) {
+    if (cross_Count >= 7) {
         left_speed = 0;
         right_speed = 0;
     } else {
         if (Centre) {
             // Move forward
-            left_speed = 30;
-            right_speed = 30;
+            left_speed = 35;
+            right_speed = 35;
             if (prev_servo_angle == 55) {
                 servo_angle = 90 + 1; // Small angle to the right
             } else if (prev_servo_angle == 125) {
@@ -94,12 +94,12 @@ void tracing() {
             // Turn left or slight left adjustment
             left_speed = Left ? 20 : 25;
             right_speed = Left ? 40 : 35;
-            servo_angle = Left ? 55 : 75; // Set servo angle for left turn or slight left adjustment
+            servo_angle = Left ? 55 : 80; // Set servo angle for left turn or slight left adjustment
         } else if (Right || RightSlight) {
             // Turn right or slight right adjustment
             left_speed = Right ? 40 : 35;
             right_speed = Right ? 20 : 25;
-            servo_angle = Right ? 125 : 105; // Set servo angle for right turn or slight right adjustment
+            servo_angle = Right ? 125 : 100; // Set servo angle for right turn or slight right adjustment
         }
     }
 
