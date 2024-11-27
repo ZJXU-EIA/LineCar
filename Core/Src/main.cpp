@@ -24,7 +24,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <tracing.hpp>
+#include <tracer.hpp>
 #include <motor.hpp>
 #include <servo.hpp>
 /* USER CODE END Includes */
@@ -98,13 +98,18 @@ int main(void)
   Motor_PWM_Init();
   Servo_PWM_Init();
 
+  Servo servo(&htim3, TIM_CHANNEL_1);
+  Motor motorLeft(L298N_IN1_GPIO_Port, L298N_IN1_Pin, L298N_IN2_GPIO_Port, L298N_IN2_Pin, &htim2, TIM_CHANNEL_3);
+  Motor motorRight(L298N_IN3_GPIO_Port, L298N_IN3_Pin, L298N_IN4_GPIO_Port, L298N_IN4_Pin, &htim2, TIM_CHANNEL_4);
+  Tracer tracer(&servo, &motorLeft, &motorRight);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    tracing();
+    tracer.InitializeStates();
+    tracer.Execute();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

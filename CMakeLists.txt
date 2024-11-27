@@ -37,8 +37,8 @@ message("Build type: " ${CMAKE_BUILD_TYPE})
 # Create an executable object type
 add_executable(
         ${CMAKE_PROJECT_NAME}
-        Core/Src/tracing.cpp
-        Core/Inc/tracing.hpp
+        Core/Src/tracer.cpp
+        Core/Inc/tracer.hpp
         Core/Src/servo.cpp
         Core/Inc/servo.hpp
         Core/Src/motor.cpp
@@ -57,8 +57,6 @@ target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
 # Add sources to executable
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user sources here
-        Core/Src/oled.c
-        Core/Src/font.c
 )
 
 # Add include paths
