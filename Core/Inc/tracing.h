@@ -5,8 +5,17 @@
 #ifndef TRACING_H
 #define TRACING_H
 
-void GrayScaleTest();
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#ifdef __cplusplus
 void InitializeStates();
 void tracing();
+#endif
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif //TRACING_H

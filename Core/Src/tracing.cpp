@@ -8,23 +8,10 @@
 #include <oled.h>
 #include <motor.h>
 #include <servo.h>
+#include <tim.h>
 
 
-/**
-* @author Nymphaea0726
-* @brief GrayScaleSensorTest
-*/
-void GrayScaleTest() {
-    OLED_NewFrame();
-    OLED_PrintString(0, 0, GPIO_PinStateToString(Gray_1_Value), &font16x16, 0);
-    OLED_PrintString(16, 0, GPIO_PinStateToString(Gray_2_Value), &font16x16, 0);
-    OLED_PrintString(32, 0, GPIO_PinStateToString(Gray_3_Value), &font16x16, 0);
-    OLED_PrintString(48, 0, GPIO_PinStateToString(Gray_4_Value), &font16x16, 0);
-    OLED_PrintString(64, 0, GPIO_PinStateToString(Gray_5_Value), &font16x16, 0);
-    OLED_PrintString(80, 0, GPIO_PinStateToString(Gray_6_Value), &font16x16, 0);
-    OLED_PrintString(96, 0, GPIO_PinStateToString(Gray_7_Value), &font16x16, 0);
-    OLED_ShowFrame();
-}
+
 
 /**
  * @author Nymphaea0726
@@ -66,7 +53,8 @@ void tracing() {
     static int prev_servo_angle = 90; // 静态保存上一个舵机角度
     static int cross_Count = 0;
     static int last_Cross_State = 0;
-
+    Motor MotorLeft(L298N_IN1_GPIO_Port, GPIO_PIN_8, GPIOA, GPIO_PIN_9, &htim2, TIM_CHANNEL_1, Motor::Direction::Forward);
+    Motor MotorRight(GPIOA, GPIO_PIN_10, GPIOA, GPIO_PIN_11, &htim2, TIM_CHANNEL_2, Motor::Direction::Forward);
     // 跨越检测
     if (Cross && last_Cross_State == 0) {
         cross_Count++;
@@ -105,7 +93,9 @@ void tracing() {
 
     prev_servo_angle = servo_angle; // 更新上一个舵机角度
 
-    Motor_Run(Motor_L, Forward, left_speed);
-    Motor_Run(Motor_R, Forward, right_speed);
+    MotorLeft.Run(left_speed);
+    MotorRight.Run(right_speed);
+
+
     Servo(servo_angle);
 }

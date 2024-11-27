@@ -106,7 +106,6 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_Delay(20);
   OLED_Init();
-  Motor_PWM_Init();
   Servo_PWM_Init();
   /* USER CODE END 2 */
 
