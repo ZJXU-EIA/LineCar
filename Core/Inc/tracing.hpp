@@ -8,12 +8,8 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#ifdef __cplusplus
 void InitializeStates();
 void tracing();
-#endif
-
 #ifdef __cplusplus
 }
 #endif

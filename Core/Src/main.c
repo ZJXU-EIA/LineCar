@@ -24,10 +24,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <oled.h>
-#include <tracing.h>
-#include <motor.h>
-#include <servo.h>
+#include <tracing.hpp>
+#include <motor.hpp>
+#include <servo.hpp>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -54,15 +53,6 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-
-/**
-     * @author Nymphaea0726
-     * @param state GPIO_PinState
-     * @return State of the pin as string
-     */
-char* GPIO_PinStateToString(GPIO_PinState state) {
-  return state == GPIO_PIN_SET ? "1" : "0";
-}
 
 /* USER CODE END PFP */
 
@@ -105,8 +95,9 @@ int main(void)
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
   HAL_Delay(20);
-  OLED_Init();
+  Motor_PWM_Init();
   Servo_PWM_Init();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */

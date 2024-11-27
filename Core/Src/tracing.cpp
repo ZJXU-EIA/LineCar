@@ -2,12 +2,12 @@
 // Created by Nymphaea on 24-11-12.
 //
 
-#include "tracing.h"
+#include "tracing.hpp"
 #include <stm32f1xx_hal.h>
 #include <main.h>
 #include <oled.h>
-#include <motor.h>
-#include <servo.h>
+#include <motor.hpp>
+#include <servo.hpp>
 #include <tim.h>
 
 
@@ -53,8 +53,12 @@ void tracing() {
     static int prev_servo_angle = 90; // 静态保存上一个舵机角度
     static int cross_Count = 0;
     static int last_Cross_State = 0;
-    Motor MotorLeft(L298N_IN1_GPIO_Port, GPIO_PIN_8, GPIOA, GPIO_PIN_9, &htim2, TIM_CHANNEL_1, Motor::Direction::Forward);
-    Motor MotorRight(GPIOA, GPIO_PIN_10, GPIOA, GPIO_PIN_11, &htim2, TIM_CHANNEL_2, Motor::Direction::Forward);
+
+    // 实例化舵机和电机对象
+    Servo Servo(&htim3, TIM_CHANNEL_4);
+    Motor MotorLeft(L298N_IN1_GPIO_Port, L298N_IN1_Pin, L298N_IN2_GPIO_Port, L298N_IN2_Pin, &htim2, TIM_CHANNEL_3);
+    Motor MotorRight(L298N_IN3_GPIO_Port, L298N_IN3_Pin, L298N_IN4_GPIO_Port, L298N_IN4_Pin, &htim2, TIM_CHANNEL_4);
+
     // 跨越检测
     if (Cross && last_Cross_State == 0) {
         cross_Count++;
@@ -63,10 +67,12 @@ void tracing() {
         last_Cross_State = 0;
     }
 
+    // 如果连续7次检测到十字路口，停止
     if (cross_Count >= 7) {
         left_speed = 0;
         right_speed = 0;
     } else {
+        // 循迹函数
         if (Centre) {
             // Move forward
             left_speed = 35;
@@ -90,12 +96,13 @@ void tracing() {
             servo_angle = Right ? 125 : 100; // Set servo angle for right turn or slight right adjustment
         }
     }
+    // 更新舵机角度
 
     prev_servo_angle = servo_angle; // 更新上一个舵机角度
 
-    MotorLeft.Run(left_speed);
-    MotorRight.Run(right_speed);
+    Servo.Move(servo_angle);
 
+    MotorLeft.Run(Motor::Forward, left_speed);
+    MotorRight.Run(Motor::Forward, right_speed);
 
-    Servo(servo_angle);
 }

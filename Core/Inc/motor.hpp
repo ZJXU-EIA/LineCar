@@ -5,11 +5,15 @@
 #ifndef MOTOR_H
 #define MOTOR_H
 
+
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 #include <stm32f1xx_hal.h>
+#include <stm32f1xx_hal_tim.h>
+void Motor_PWM_Init();
 
 #ifdef __cplusplus
 
@@ -31,7 +35,6 @@ public:
 
     void Run(Direction direction,uint8_t speed);
 
-
 private:
     GPIO_TypeDef* in1Port;
     uint16_t in1Pin;
@@ -42,7 +45,6 @@ private:
 };
 #endif
 
-void Motor_PWM_Init();
 #ifdef __cplusplus
 }
 #endif

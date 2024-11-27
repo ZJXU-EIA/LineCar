@@ -38,11 +38,11 @@ message("Build type: " ${CMAKE_BUILD_TYPE})
 add_executable(
         ${CMAKE_PROJECT_NAME}
         Core/Src/tracing.cpp
-        Core/Inc/tracing.h
+        Core/Inc/tracing.hpp
         Core/Src/servo.cpp
-        Core/Inc/servo.h
+        Core/Inc/servo.hpp
         Core/Src/motor.cpp
-        Core/Inc/motor.h
+        Core/Inc/motor.hpp
 
 )
 
