@@ -28,19 +28,3 @@ void Servo::Move(int angle) {
     // 3. Wait for the servo to move
     HAL_Delay(20);
 }
-
-// /**
-//  * @author Nymphaea0726
-//  * @brief Test the servo by moving it from 0 to 180 degrees in 10 degree increments
-//  */
-// void Servo_Test() {
-//     int angle = 0;
-//     for (angle = 0; angle <= 180; angle += 10) {
-//         Servo(angle);
-//         HAL_Delay(1000);
-//     }
-//     for (angle = 180; angle >= 0; angle -= 10) {
-//         Servo(angle);
-//         HAL_Delay(1000);
-//     }
-// }

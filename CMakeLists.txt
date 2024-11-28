@@ -37,6 +37,8 @@ message("Build type: " ${CMAKE_BUILD_TYPE})
 # Create an executable object type
 add_executable(
         ${CMAKE_PROJECT_NAME}
+        Core/Src/main.cpp
+        Core/Inc/main.hpp
         Core/Src/tracer.cpp
         Core/Inc/tracer.hpp
         Core/Src/servo.cpp

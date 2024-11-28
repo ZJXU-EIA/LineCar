@@ -3,8 +3,7 @@
 //
 
 #include "tracer.hpp"
-#include <main.h>
-#include <oled.h>
+#include <main.hpp>
 
 Tracer::Tracer(Servo* servo, Motor* motorLeft, Motor* motorRight)
     : servo(servo), motorLeft(motorLeft), motorRight(motorRight), left_speed(32), right_speed(32),
