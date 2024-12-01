@@ -6,8 +6,8 @@
 #include <main.hpp>
 
 Tracer::Tracer(Servo* servo, Motor* motorLeft, Motor* motorRight)
-    : servo(servo), motorLeft(motorLeft), motorRight(motorRight), left_speed(32), right_speed(32),
-      servo_angle(0), prev_servo_angle(91), cross_Count(0), last_Cross_State(0) {}
+    : servo(servo), motorLeft(motorLeft), motorRight(motorRight), left_speed(30), right_speed(30),
+      servo_angle(0), prev_servo_angle(90), cross_Count(0), last_Cross_State(0) {}
 
 void Tracer::InitializeStates() {
     Centre = (Gray_3_Value == GPIO_PIN_SET && Gray_4_Value == GPIO_PIN_SET && Gray_5_Value == GPIO_PIN_SET) ||
@@ -32,7 +32,7 @@ void Tracer::Execute() {
         last_Cross_State = 0;
     }
 
-    if (cross_Count >= 7) {
+    if (cross_Count >= 5) {
         left_speed = 0;
         right_speed = 0;
     } else {
